@@ -27,41 +27,47 @@ public class Program {
 		String name = sc.nextLine();
 		
 		System.out.print("Email: ");
-		String email = sc.nextLine();
+		String email = sc.next();
 		
 		System.out.print("Birth Date (DD/MM/YYYY): ");
-		Date birthDate = sdf.parse(sc.nextLine());
+		Date birthDate = sdf.parse(sc.next());
+		
+		Client client = new Client(name, email, birthDate);
 		
 		System.out.println("Enter order data: ");
 		
 		System.out.print("Status: ");
-		String status = sc.nextLine();
+		OrderStatus status = OrderStatus.valueOf(sc.next());
 		
 		Date date = new Date();
 		sdf.format(date);
 		
-		Order order = new Order( date, OrderStatus.valueOf(status), new Client(name, email, birthDate));
+		Order order = new Order(new Date(), status, client);
 		
 		System.out.print("How many items to this order? ");
 		int n = sc.nextInt();
 		
 		for(int i=0; i<n; i++) {
-		System.out.println("Enter #" +(i+1)+" item data:");
-		sc.nextLine();
-		System.out.print("Product name: ");
-		String product = sc.nextLine();
-		
-		System.out.print("Product price: ");
-		Double price = sc.nextDouble();
-		
-		System.out.print("Quantity: ");
-		Integer quantity = sc.nextInt();
-		
-		OrderItem item = new OrderItem(quantity, price, new Product(product, price));
-	  	order.addItem(item);
+		        System.out.println("Enter #" +(i+1)+" item data:");
+		        
+				System.out.print("Product name: ");
+				sc.nextLine();
+				String productName = sc.nextLine();
+				
+				System.out.print("Product price: ");
+				double productPrice = sc.nextDouble();
+				
+				Product product = new Product(productName, productPrice);
+				
+				System.out.print("Quantity: ");
+				int quantity = sc.nextInt();
+				
+				OrderItem orderItem = new OrderItem(quantity, productPrice, product);
+				order.addItem(orderItem);
 		}
 		
 		System.out.println();
+		System.out.println("ORDER SUMMARY:");
 		System.out.println(order);
 		
 		sc.close();
